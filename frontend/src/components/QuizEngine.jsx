@@ -4,12 +4,14 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle, BrainCircuit, Loader2, RefreshCcw, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { useUserProgress } from "../context/UserProgressContext";
 
 export default function QuizEngine() {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { addXp } = useUserProgress();
 
   useEffect(() => {
     fetchQuizQuestions().then(setQuestions).catch(() => setQuestions([]));
@@ -37,6 +39,7 @@ export default function QuizEngine() {
       }));
       const data = await submitQuiz(payload);
       setResult(data);
+      if (data.score) addXp(data.score * 10);
     } finally {
       setLoading(false);
     }

@@ -4,12 +4,14 @@ import { Sparkles, Send, Loader2, AlertCircle } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useUserProgress } from "../context/UserProgressContext";
 
 export default function AssistantPanel({ title = "AI Election Assistant", description = "Ask any question about how elections work.", mode = "guide" }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { addXp } = useUserProgress();
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -24,6 +26,7 @@ export default function AssistantPanel({ title = "AI Election Assistant", descri
     try {
       const data = await askElectionAI(question, mode);
       setAnswer(data.answer);
+      addXp(5); // Award 5 XP for asking a question
     } catch {
       setError("Unable to fetch AI response. Please try again.");
     } finally {
