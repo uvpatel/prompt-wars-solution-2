@@ -2,8 +2,10 @@ import AssistantPanel from "./AssistantPanel";
 
 export default function ScenarioSimulator() {
   return (
-    <section>
-      <AssistantPanel title="AI Scenario Simulator" mode="scenario" />
-    </section>
+    <AssistantPanel 
+      title="AI Scenario Simulator" 
+      description="Simulate real-world election scenarios and test your understanding."
+      mode="scenario" 
+    />
   );
 }
